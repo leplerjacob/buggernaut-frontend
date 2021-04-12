@@ -11,9 +11,14 @@ const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
 import "./style/main.scss";
 
+const store = createStoreWithMiddleware(
+  reducers,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
 function main() {
   ReactDOM.render(
-    <Provider store={createStoreWithMiddleware(reducers)}>
+    <Provider store={store}>
       <BrowserRouter>
         <App />
       </BrowserRouter>

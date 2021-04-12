@@ -1,17 +1,20 @@
+import axios from "axios";
+
 export const login = (username, password, password_confirmation) => {
   return async (dispatch) => {
-    const response = await fetch("http://localhost:3000/sessions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-        password_confirmation: password_confirmation,
-      }),
+
+    const reqObj = {
+        user: {
+          username: username,
+          password: password,
+          password_confirmation: password,
+        },
+      };
+
+    const res = await axios.post("http://localhost:3000/sessions", reqObj, {
+      withCredentials: true,
     });
-    const resData = await response.json();
-    dispatch({ type: "LOGIN", user: resData });
+
+    dispatch({ type: "LOGIN", user: res.data });
   };
 };
