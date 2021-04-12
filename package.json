@@ -14,7 +14,13 @@
     "type": "git",
     "url": ""
   },
-  "keywords": ["buggernaut", "react", "webpack", "react-redux", "session", "cookies"
+  "keywords": [
+    "buggernaut",
+    "react",
+    "webpack",
+    "react-redux",
+    "session",
+    "cookies"
   ],
   "author": "Jacob Lepler",
   "license": "MIT",
@@ -24,8 +30,8 @@
   "homepage": "https://github.com/leplerjacob/buggernaut-frontend",
   "dependencies": {
     "ajv": "6.12.0",
-    "axios": "0.21.1",
     "autoprefixer": "^9.1.0",
+    "axios": "0.21.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^7.2.3",
@@ -54,6 +60,7 @@
     "react-router": "5.1.2",
     "react-router-dom": "5.1.2",
     "redux": "4.0.5",
+    "redux-thunk": "^2.3.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.21.0",
     "webpack": "4.42.1",
