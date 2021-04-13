@@ -1,86 +1,68 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { login, logout, checkIfLoggedIn } from "../actions/auth";
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+function App(props) {
+  const [state, setState] = useState({ username: "", password: "" });
 
-    this.state = {
-      username: "",
-      password: "",
-    };
+  useEffect(() => {
+    checkLogin()
+  }, []);
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.loginUser = this.loginUser.bind(this);
-    this.logoutUser = this.logoutUser.bind(this);
-    this.checkUserIsLoggedIn = this.checkUserIsLoggedIn.bind(this)
-  }
+  // Handles
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setState((prevState) => ({ ...prevState, [name]: value }));
+  };
 
-  componentDidMount() {
-    let res = this.checkUserIsLoggedIn()
-
-    setTimeout(() => {
-
-    }, 10000)
-  }
-
-  checkUserIsLoggedIn = () => {
-    return this.props.checkIfLoggedIn()
-  }
-
-  handleChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  }
-
-  handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    this.loginUser();
-  }
-
-  loginUser = async () => {
-    const { username, password } = this.state;
-    await this.props.login(username, password, password);
+    loginUser();
   };
 
-  logoutUser = async () => {
-    await this.props.logout();
+  const checkLogin = () => {
+    return props.checkIfLoggedIn();
   };
 
-  render() {
-    return (
-      <div className="app">
-        <h1>Buggernaut | Project Management</h1>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            value={this.state.username}
-            onChange={this.handleChange}
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={this.state.password}
-            onChange={this.handleChange}
-            required
-          />
-          <button type="submit">Login</button>
-        </form>
-      </div>
-    );
-  }
+  const loginUser = () => {
+    const { username, password } = state;
+    props.login(username, password, password);
+  };
+
+  const logoutUser = () => {
+    props.logout();
+  };
+
+  return (
+    <div className="app">
+      <h1>Buggernaut | Project Management</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          value={state.username}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={state.password}
+          onChange={handleChange}
+          required
+        />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  );
 }
 
 const mapStateToProps = (state) => ({
   user: state.auth.user,
 });
 
-export default connect(mapStateToProps, { login, logout, checkIfLoggedIn })(App);
+export default connect(mapStateToProps, { login, logout, checkIfLoggedIn })(
+  App
+);

@@ -1,11 +1,14 @@
 import axios from "axios";
 
 export const checkIfLoggedIn = () => {
-    return async (dispatch) => {
-        const res = await axios.get('http://localhost:3000/logged_in')
-        dispatch({type: "LOGIN", user: res.data})
-    }
-}
+  return async (dispatch) => {
+    const res = await axios.get("http://localhost:3000/logged_in", {
+      withCredentials: true,
+    });
+
+    dispatch({ type: "LOGIN", user: res.data });
+  };
+};
 
 export const login = (username, password, password_confirmation) => {
   return async (dispatch) => {
@@ -30,6 +33,6 @@ export const logout = () => {
   return async (dispatch) => {
     const res = axios.delete("http://localhost:3000/logout");
 
-    console.log("logged out...")
+    console.log("logged out...");
   };
 };
