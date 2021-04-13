@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import Dashboard from './Dashboard'
+import Login from './Login'
 import { checkIfLoggedIn } from "../actions/auth";
 import { connect } from "react-redux";
 
@@ -14,8 +16,7 @@ function App(props) {
 
   return (
     <div className="app">
-      <h1>Buggernaut | Project Management</h1>
-
+      {props.user ? <Dashboard /> : <Login />}
     </div>
   );
 }
