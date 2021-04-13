@@ -1,11 +1,29 @@
-import React, { Component } from 'react';
+import React, { useEffect } from "react";
+import { checkIfLoggedIn } from "../actions/auth";
+import { connect } from "react-redux";
 
-export default class App extends Component {
-  render() {
-    return (
-      <div className='app'>
-        <h1>Buggernaut | Project Management</h1>
-      </div>
-    );
-  }
+function App(props) {
+
+  useEffect(() => {
+    checkLogin()
+  }, []);
+
+  const checkLogin = () => {
+    return props.checkIfLoggedIn();
+  };
+
+  return (
+    <div className="app">
+      <h1>Buggernaut | Project Management</h1>
+
+    </div>
+  );
 }
+
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
+});
+
+export default connect(mapStateToProps, { checkIfLoggedIn })(
+  App
+);
