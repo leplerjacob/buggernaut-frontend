@@ -1,4 +1,6 @@
-import React, {useState, useEffect, useDispatch, useLayoutEffect} from "react";
+import React, {useState, useEffect, useLayoutEffect} from "react";
+import {useDispatch} from 'react-redux'
+import {logout} from '../../actions/auth'
 import { Column, Row } from "simple-flexbox";
 import { StyleSheet, css } from "aphrodite";
 import SidebarComponent from "../SidebarComponent";
@@ -25,6 +27,7 @@ const useForceUpdate = () => {
   return () => setValue(value => value + 1)
 }
 
+
 function useWindowSize() {
   const [size, setSize] = useState([0, 0]);
   useLayoutEffect(() => {
@@ -41,12 +44,13 @@ function useWindowSize() {
 const DashboardPage = () => {
   const [selectedItem, setSelectedItem] = useState("Overview")
   
+  const dispatch = useDispatch()
   const forceUpdate = useForceUpdate();
-
+  
   useEffect(() => {
     window.removeEventListener("resize", forceUpdate());
   }, [])
-
+  
 
   window.addEventListener("resize", useWindowSize());
 
@@ -57,6 +61,9 @@ const DashboardPage = () => {
         return <OverviewComponent />;
       case "Projects":
         return <NewProjects />;
+      case "Logout":
+        dispatch(logout())
+        return
       default:
         break;
     }

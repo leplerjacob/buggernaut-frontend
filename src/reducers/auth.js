@@ -41,6 +41,15 @@ export default (state = initialState, action) => {
         }
       }
       return;
+    case "LOGOUT": {
+      const {logged_out} = action.user
+      if (logged_out){
+        return {
+          ...state,
+          loggedInStatus: false,
+          user: ""
+        }}
+      }
     default:
       return state;
   }

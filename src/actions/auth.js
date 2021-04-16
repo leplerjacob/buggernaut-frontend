@@ -31,8 +31,8 @@ export const login = (username, password) => {
 
 export const logout = () => {
   return async (dispatch) => {
-    const res = axios.delete("http://localhost:3000/logout");
+    const res = await axios.delete("http://localhost:3000/logout");
 
-    console.log("logged out...");
+    dispatch({type: "LOGOUT", user: res.data})
   };
 };
