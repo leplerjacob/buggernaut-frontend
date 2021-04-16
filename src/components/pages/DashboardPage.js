@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect, useDispatch, useLayoutEffect} from "react";
 import { Column, Row } from "simple-flexbox";
 import { StyleSheet, css } from "aphrodite";
 import SidebarComponent from "../SidebarComponent";
@@ -20,20 +20,38 @@ const styles = StyleSheet.create({
   },
 });
 
-class DashboardPage extends React.Component {
-  state = { selectedItem: "Overview" };
+const useForceUpdate = () => {
+  const [value, setValue] = useState(0)
+  return () => setValue(value => value + 1)
+}
 
-  componentDidMount() {
-    window.addEventListener("resize", this.resize);
-  }
+function useWindowSize() {
+  const [size, setSize] = useState([0, 0]);
+  useLayoutEffect(() => {
+    function updateSize() {
+      setSize([window.innerWidth, window.innerHeight]);
+    }
+    window.addEventListener('resize', updateSize);
+    updateSize();
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+  return size;
+}
 
-  componenWillMount() {
-    window.removeEventListenever("resize", this.resize);
-  }
+const DashboardPage = () => {
+  const [selectedItem, setSelectedItem] = useState("Overview")
+  
+  const forceUpdate = useForceUpdate();
 
-  resize = () => this.forceUpdate();
+  useEffect(() => {
+    window.removeEventListener("resize", forceUpdate());
+  }, [])
 
-  renderSwitch = (selectedItem) => {
+
+  window.addEventListener("resize", useWindowSize());
+
+
+  const renderSwitch = (selectedItem) => {
     switch (selectedItem) {
       case "Overview":
         return <OverviewComponent />;
@@ -44,23 +62,21 @@ class DashboardPage extends React.Component {
     }
   };
 
-  render() {
-    const { selectedItem } = this.state;
+    // const { selectedItem } = this.state;
     return (
       <Row className={css(styles.container)}>
         <SidebarComponent
           selectedItem={selectedItem}
-          onChange={(selectedItem) => this.setState({ selectedItem })}
+          onChange={(selectedItem) => setSelectedItem(selectedItem)}
         />
         <Column flexGrow={1} className={css(styles.mainBlock)}>
           <HeaderComponent title={selectedItem} />
           <div className={css(styles.content)}>
-            {this.renderSwitch(selectedItem)}
+            {renderSwitch(selectedItem)}
           </div>
         </Column>
       </Row>
     );
   }
-}
 
 export default DashboardPage
