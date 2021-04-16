@@ -5,25 +5,25 @@ export const checkIfLoggedIn = () => {
     const res = await axios.get("http://localhost:3000/logged_in", {
       withCredentials: true,
     });
-
-    dispatch({ type: "LOGIN", user: res.data });
+    const data = await res.data;
+    dispatch({ type: "CHECK_LOGGED_IN", check: data });
   };
 };
 
-export const login = (username, password, password_confirmation) => {
+export const login = (username, password) => {
   return async (dispatch) => {
     const reqObj = {
       user: {
         username: username,
         password: password,
-        password_confirmation: password_confirmation,
       },
     };
 
     const res = await axios.post("http://localhost:3000/sessions", reqObj, {
       withCredentials: true,
     });
-    const data = res.data;
+
+    const data = await res.data;
 
     dispatch({ type: "LOGIN", user: data });
   };

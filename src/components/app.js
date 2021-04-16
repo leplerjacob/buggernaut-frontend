@@ -1,66 +1,25 @@
-import React from "react";
-import { Column, Row } from "simple-flexbox";
-import { StyleSheet, css } from "aphrodite";
-import SidebarComponent from "./SidebarComponent";
-import HeaderComponent from "./HeaderComponent";
-import OverviewComponent from "./OverviewComponent";
-import NewProjects from "./projects/NewProject";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { checkIfLoggedIn } from '../actions/auth';
+import LoginPage from "./pages/LoginPage";
+import DashboardPage from './pages/DashboardPage'
 
-const styles = StyleSheet.create({
-  container: {
-    height: "100%",
-    minHeight: "100vh",
-  },
-  content: {
-    marginTop: 54,
-  },
-  mainBlock: {
-    backgroundColor: "#F7F8FC",
-    padding: 30,
-  },
-});
+function App() {
 
-class App extends React.Component {
-  state = { selectedItem: "Overview" };
+  const dispatch = useDispatch()
+  let user = useSelector(state => state.auth.user)
+  
+  useEffect(() => {
+    dispatch(checkIfLoggedIn())
+  }, []);
 
-  componentDidMount() {
-    window.addEventListener("resize", this.resize);
-  }
-
-  componenWillMount() {
-    window.removeEventListenever("resize", this.resize);
-  }
-
-  resize = () => this.forceUpdate();
-
-  renderSwitch = (selectedItem) => {
-    switch (selectedItem) {
-      case "Overview":
-        return <OverviewComponent />;
-      case "Projects":
-        return <NewProjects />;
-      default:
-        break;
-    }
-  };
-
-  render() {
-    const { selectedItem } = this.state;
-    return (
-      <Row className={css(styles.container)}>
-        <SidebarComponent
-          selectedItem={selectedItem}
-          onChange={(selectedItem) => this.setState({ selectedItem })}
-        />
-        <Column flexGrow={1} className={css(styles.mainBlock)}>
-          <HeaderComponent title={selectedItem} />
-          <div className={css(styles.content)}>
-            {this.renderSwitch(selectedItem)}
-          </div>
-        </Column>
-      </Row>
-    );
-  }
+  return (
+    <div>
+      {user ? <DashboardPage /> : <LoginPage />}
+    </div>
+  );
 }
+
+
 
 export default App
