@@ -1,4 +1,12 @@
 import React, { Component } from "react";
+import {StyleSheet, css} from 'aphrodite'
+import {Row, Column} from 'simple-flexbox'
+
+const styles = StyleSheet.create({
+  projectForm: {
+  },
+
+});
 
 class NewProject extends Component {
   constructor(props) {
@@ -38,50 +46,52 @@ class NewProject extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>Project Title</label>
-        <input
-          value={this.state.value}
-          onChange={this.handleChange}
-          placeholder="Project Title"
-        />
-        <label>
-          Project Description
-          <br />
-          <textarea
-            value={this.state.value}
-            onChange={this.handleChange}
-            placeholder="Project Title"
-          />
-        </label>
-        <label>
-          Start Date
-          <br />
+        <Column>
+          <label>Project Title</label>
           <input
             value={this.state.value}
             onChange={this.handleChange}
             placeholder="Project Title"
           />
-        </label>
-        <label>
-          End Date
+          <label>
+            Project Description
+            <br />
+            <textarea
+              value={this.state.value}
+              onChange={this.handleChange}
+              placeholder="Project Title"
+            />
+          </label>
+          <label>
+            Start Date
+            <br />
+            <input
+              value={this.state.value}
+              onChange={this.handleChange}
+              placeholder="Project Title"
+            />
+          </label>
+          <label>
+            End Date
+            <br />
+            <input
+              value={this.state.value}
+              onChange={this.handleChange}
+              placeholder="Project Title"
+            />
+          </label>
+          <label>
+            Estimated Duration
+            <br />
+            <input
+              value={this.state.value}
+              onChange={this.handleChange}
+              placeholder="Project Title"
+            />
+          </label>
           <br />
-          <input
-            value={this.state.value}
-            onChange={this.handleChange}
-            placeholder="Project Title"
-          />
-        </label>
-        <label>
-          Estimated Duration
-          <br />
-          <input
-            value={this.state.value}
-            onChange={this.handleChange}
-            placeholder="Project Title"
-          />
-        </label>
-        <br />
-        <input type="submit" value="Submit" />
+          <input type="submit" value="Submit" />
+        </Column>
       </form>
     );
   }

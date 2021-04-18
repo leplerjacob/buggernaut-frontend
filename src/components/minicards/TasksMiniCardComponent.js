@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
   taskDetails: {
     textAlign: "right",
   },
+  
 });
 
 const TasksMiniCardComponent = (props) => {
@@ -25,7 +26,7 @@ const TasksMiniCardComponent = (props) => {
 
   const renderTaskItem = (task) => {
     return (
-      <Row horizontal="space-around">
+      <Row horizontal="space-around" key={task.id}>
         <span className={css(styles.taskTitle)}>{task.title}</span>
         <span>{task.description}</span>
         <span>{task.completed ? "completed" : "in progress"}</span>
@@ -37,7 +38,7 @@ const TasksMiniCardComponent = (props) => {
   return (
     <Column>
       <Row>
-        <span>{tasks.length}</span>
+        <span>Tasks | {tasks.length}</span>
       </Row>
       <Row>
         <Column>

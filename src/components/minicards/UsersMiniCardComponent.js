@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getUsersForProject } from "../../actions/users";
 import { StyleSheet, css } from "aphrodite";
 import { Row, Column } from "simple-flexbox";
 
@@ -12,9 +14,17 @@ const styles = StyleSheet.create({
 });
 
 const UsersMiniCardComponent = (props) => {
-  const { users } = props;
+  
+  let { id } = useSelector((state) => state.auth.user);
+  let users = useSelector((state) => state.users.users);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUsersForProject(id));
+  }, []);
 
   const renderUserItem = (user) => {
+    console.log(user)
     return (
       <Row horizontal="space-around">
         <span className={css(styles.userName)}>

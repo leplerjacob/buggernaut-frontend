@@ -1,12 +1,10 @@
 import React, {useEffect, useDispatch, useSelector} from "react";
 import { Column, Row } from "simple-flexbox";
 import { StyleSheet, css } from "aphrodite/no-important";
-import ProjectMiniComponent from "../overview/ProjectMiniComponent";
 import ProjectCommentsMiniComponent from '../overview/ProjectCommentsMiniComponent'
 import TasksComponent from "../TasksComponent";
 
-// New Components
-import TasksMiniCardComponent from '../minicards/TasksMiniCardComponent'
+import ActiveProjectCardComponent from '../cards/ActiveProjectCardComponent'
 
 const styles = StyleSheet.create({
   cardsContainer: {
@@ -45,6 +43,7 @@ const styles = StyleSheet.create({
       marginTop: 30,
     },
   },
+  
 });
 
 function OverviewComponent() {
@@ -53,11 +52,9 @@ function OverviewComponent() {
     <Column>
       <Row
         horizontal="space-between"
-        className={css(styles.lastRow)}
         breakpoints={{ 1024: "column" }}
       >
-        <TasksMiniCardComponent  />
-        <TasksComponent containerStyles={styles.tasks} />
+        <ActiveProjectCardComponent containerStyles={styles.unresolvedTickets}/>
       </Row>
       <Row
         horizontal="space-between"
