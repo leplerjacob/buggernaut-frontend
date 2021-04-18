@@ -1,9 +1,12 @@
-import React from "react";
+import React, {useEffect, useDispatch, useSelector} from "react";
 import { Column, Row } from "simple-flexbox";
 import { StyleSheet, css } from "aphrodite/no-important";
-import ProjectMiniComponent from "./overview/ProjectMiniComponent";
-import ProjectCommentsMiniComponent from './overview/ProjectCommentsMiniComponent'
-import TasksComponent from "./TasksComponent";
+import ProjectMiniComponent from "../overview/ProjectMiniComponent";
+import ProjectCommentsMiniComponent from '../overview/ProjectCommentsMiniComponent'
+import TasksComponent from "../TasksComponent";
+
+// New Components
+import TasksMiniCardComponent from '../minicards/TasksMiniCardComponent'
 
 const styles = StyleSheet.create({
   cardsContainer: {
@@ -45,6 +48,7 @@ const styles = StyleSheet.create({
 });
 
 function OverviewComponent() {
+
   return (
     <Column>
       <Row
@@ -52,9 +56,7 @@ function OverviewComponent() {
         className={css(styles.lastRow)}
         breakpoints={{ 1024: "column" }}
       >
-        <ProjectMiniComponent
-          containerStyles={styles.unresolvedTickets}
-        />
+        <TasksMiniCardComponent  />
         <TasksComponent containerStyles={styles.tasks} />
       </Row>
       <Row

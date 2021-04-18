@@ -1,12 +1,12 @@
 import React, {useState, useEffect, useLayoutEffect} from "react";
 import {useDispatch} from 'react-redux'
-import {logout} from '../../actions/auth'
+import {logout} from '../actions/auth'
 import { Column, Row } from "simple-flexbox";
 import { StyleSheet, css } from "aphrodite";
-import SidebarComponent from "../SidebarComponent";
-import HeaderComponent from "../HeaderComponent";
-import OverviewComponent from "../OverviewComponent";
-import NewProjects from "../projects/NewProject";
+import SidebarComponent from "./SidebarComponent";
+import HeaderComponent from "./HeaderComponent";
+import OverviewComponent from "./pages/OverviewComponent";
+import NewProjects from "./projects/NewProject";
 
 const styles = StyleSheet.create({
   container: {

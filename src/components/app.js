@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { checkIfLoggedIn } from '../actions/auth';
-import LoginPage from "./pages/LoginPage";
-import DashboardPage from './pages/DashboardPage'
+import LoginPage from "./LoginPage";
+import DashboardPage from './DashboardPage'
 
 function App() {
 
@@ -15,6 +15,7 @@ function App() {
 
   return (
     <div>
+
       {user ? <DashboardPage /> : <LoginPage />}
     </div>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import LoginForm from '../login/LoginForm';
+import LoginForm from './login/LoginForm';
 import { Row, Column } from "simple-flexbox";
 import { StyleSheet, css } from "aphrodite";
 
