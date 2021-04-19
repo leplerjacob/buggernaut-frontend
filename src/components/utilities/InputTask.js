@@ -29,7 +29,7 @@ const InputTask = ({ onChange, inputBox, users, index }) => {
         <option defaultValue>Select User</option>
         {users.map((user) => {
           return (
-            <option>
+            <option key={user.id} data={user.id}>
               {user.first_name} {user.last_name}
             </option>
           );

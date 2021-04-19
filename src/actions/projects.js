@@ -11,9 +11,9 @@ export const getProjectsForPMAndUsers = (id) => {
   };
 };
 
-export const createProjectWithTasks = (id) => {
+export const createProjectWithTasks = (reqObj) => {
   return async (dispatch) => {
-    const res = await axios.post(`http://localhost:3000/projects`, {withCredentials: true})
+    const res = await axios.post(`http://localhost:3000/projects/`, reqObj, {withCredentials: true})
 
     const data = await res.data
     dispatch({type: "CREATE_PROJECT_WITH_TASKS", data: data})

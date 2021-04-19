@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getProjectsForPMAndUsers } from "../../actions/projects";
+import { getProjectsForPMAndUsers, createProjectWithTasks } from "../../actions/projects";
 import InputTask from "../utilities/InputTask";
 import { StyleSheet, css } from "aphrodite";
 import { Row, Column } from "simple-flexbox";
@@ -39,6 +39,9 @@ const NewProject = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const {inputList, ...reqObj} = formState
+    reqObj.pm_id = id
+    dispatch(createProjectWithTasks(reqObj))
   };
 
   const handleChange = (e) => {
@@ -61,18 +64,25 @@ const NewProject = () => {
   const handleTaskChange = (e) => {
     const { name, value } = e.target;
     const index = e.target.parentElement.getAttribute("data-set");
+    let selectedValue = ""
+    if(e.target.selectedIndex){
+      const sIndex = e.target.selectedIndex
+      const node = e.target.childNodes[sIndex]
+      selectedValue = node.getAttribute('data-id')
+    }
     setFormState((prevState) => {
       return {
         ...prevState,
         taskInputs: {
           ...prevState.taskInputs,
-          [index]: { ...prevState.taskInputs[index], [name]: value },
+          [index]: { ...prevState.taskInputs[index], [name]: selectedValue ? parseInt(selectedValue) : value },
         },
       };
     });
   };
 
-  const addTaskInput = () => {
+  const addTaskInput = (e) => {
+    e.preventDefault()
     const index = formState.inputList.length + 1;
     setFormState((prevState) => ({
       ...prevState,
@@ -93,7 +103,7 @@ const NewProject = () => {
       <Row>
         <Column>{projects.map((project) => renderProject(project))}</Column>
       </Row>
-      <form onSubmit={handleSubmit}>
+      <form>
         <Column>
           <label>Project Title</label>
           <input
@@ -107,11 +117,10 @@ const NewProject = () => {
             Project Description
             <br />
             <textarea
-              className={css(styles.inputBox)}
+            className={css(styles.inputBox)}
               name="description"
               value={formState.description}
               onChange={handleChange}
-              placeholder="Project Title"
             />
           </label>
           <label>
@@ -122,7 +131,7 @@ const NewProject = () => {
               name="startDate"
               value={formState.startDate}
               onChange={handleChange}
-              placeholder="Project Title"
+              placeholder="Project Start Date"
             />
           </label>
           <label>
@@ -133,7 +142,7 @@ const NewProject = () => {
               name="endDate"
               value={formState.endDate}
               onChange={handleChange}
-              placeholder="Project Title"
+              placeholder="Project End Date"
             />
           </label>
           <label>
@@ -144,18 +153,17 @@ const NewProject = () => {
               name="estDuration"
               value={formState.estDuration}
               onChange={handleChange}
-              placeholder="Project Title"
+              placeholder="Project Est. Duration"
             />
           </label>
           <br />
           <label>Add task</label>
           <button onClick={addTaskInput}>Add Task</button>
           {formState.inputList.map((input, index) => input)}
-          <input
+          <button
             className={css(styles.submitBtn)}
-            type="submit"
-            value="Submit"
-          />
+            onClick={handleSubmit}
+          >Submit</button>
         </Column>
       </form>
     </div>
