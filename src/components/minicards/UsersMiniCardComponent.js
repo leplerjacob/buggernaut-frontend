@@ -24,7 +24,6 @@ const UsersMiniCardComponent = (props) => {
   }, []);
 
   const renderUserItem = (user) => {
-    console.log(user)
     return (
       <Row horizontal="space-around">
         <span className={css(styles.userName)}>

@@ -1,64 +1,116 @@
-import React, { Component } from "react";
-import {StyleSheet, css} from 'aphrodite'
-import {Row, Column} from 'simple-flexbox'
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getProjectsForPMAndUsers } from "../../actions/projects";
+import InputTask from "../utilities/InputTask";
+import { StyleSheet, css } from "aphrodite";
+import { Row, Column } from "simple-flexbox";
 
 const styles = StyleSheet.create({
-  projectForm: {
+  projectTitle: {
+    fontSize: "14px",
   },
-
+  inputBox: {
+    width: "100%",
+  },
+  submitBtn: {
+    width: "100%",
+  },
 });
 
-class NewProject extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: "",
-      description: "",
-      dateStart: "",
-      dateEnd: "",
-    };
+const NewProject = () => {
+  const dispatch = useDispatch();
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  const [formState, setFormState] = useState({
+    title: "",
+    description: "",
+    startDate: "",
+    endDate: "",
+    estDuration: "",
+    inputList: [],
+    taskInputs: {},
+  });
+  let { id } = useSelector((state) => state.auth.user);
+  let projects = useSelector((state) => state.projects.projects);
+  let users = useSelector((state) => state.projects.users);
 
-  handleChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  }
+  useEffect(() => {
+    dispatch(getProjectsForPMAndUsers(id));
+  }, []);
 
-  handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const { title, description, dateStart, dateEnd } = this.state;
-    const reqObj = {
-      project: {
-        title: title,
-        description: description,
-        dateState: dateStart,
-        dateEnd: dateEnd,
-      },
-    };
+  };
 
-    axios.post("http://localhost:3000/", reqObj, { withCredentials: true });
-  }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormState((prevState) => ({ ...prevState, [name]: value }));
+  };
 
-  render() {
+  const renderProject = (project) => {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <Row key={project.id}>
+        <span className={css(styles.projectTitle)}>{project.title}</span>
+        <span className={css(styles.projectTitle)}>{project.description}</span>
+        <span className={css(styles.projectTitle)}>
+          {project.date_start} | {project.date_end}
+        </span>
+      </Row>
+    );
+  };
+
+  const handleTaskChange = (e) => {
+    const { name, value } = e.target;
+    const index = e.target.parentElement.getAttribute("data-set");
+    setFormState((prevState) => {
+      return {
+        ...prevState,
+        taskInputs: {
+          ...prevState.taskInputs,
+          [index]: { ...prevState.taskInputs[index], [name]: value },
+        },
+      };
+    });
+  };
+
+  const addTaskInput = () => {
+    const index = formState.inputList.length + 1;
+    setFormState((prevState) => ({
+      ...prevState,
+      inputList: formState.inputList.concat(
+        <InputTask
+          key={index}
+          index={`task${index}`}
+          users={users}
+          onChange={handleTaskChange}
+          inputStyle={css(styles.inputBox)}
+        />
+      ),
+    }));
+  };
+
+  return (
+    <div>
+      <Row>
+        <Column>{projects.map((project) => renderProject(project))}</Column>
+      </Row>
+      <form onSubmit={handleSubmit}>
         <Column>
           <label>Project Title</label>
           <input
-            value={this.state.value}
-            onChange={this.handleChange}
+            className={css(styles.inputBox)}
+            name="title"
+            value={formState.title}
+            onChange={handleChange}
             placeholder="Project Title"
           />
           <label>
             Project Description
             <br />
             <textarea
-              value={this.state.value}
-              onChange={this.handleChange}
+              className={css(styles.inputBox)}
+              name="description"
+              value={formState.description}
+              onChange={handleChange}
               placeholder="Project Title"
             />
           </label>
@@ -66,8 +118,10 @@ class NewProject extends Component {
             Start Date
             <br />
             <input
-              value={this.state.value}
-              onChange={this.handleChange}
+              className={css(styles.inputBox)}
+              name="startDate"
+              value={formState.startDate}
+              onChange={handleChange}
               placeholder="Project Title"
             />
           </label>
@@ -75,8 +129,10 @@ class NewProject extends Component {
             End Date
             <br />
             <input
-              value={this.state.value}
-              onChange={this.handleChange}
+              className={css(styles.inputBox)}
+              name="endDate"
+              value={formState.endDate}
+              onChange={handleChange}
               placeholder="Project Title"
             />
           </label>
@@ -84,17 +140,26 @@ class NewProject extends Component {
             Estimated Duration
             <br />
             <input
-              value={this.state.value}
-              onChange={this.handleChange}
+              className={css(styles.inputBox)}
+              name="estDuration"
+              value={formState.estDuration}
+              onChange={handleChange}
               placeholder="Project Title"
             />
           </label>
           <br />
-          <input type="submit" value="Submit" />
+          <label>Add task</label>
+          <button onClick={addTaskInput}>Add Task</button>
+          {formState.inputList.map((input, index) => input)}
+          <input
+            className={css(styles.submitBtn)}
+            type="submit"
+            value="Submit"
+          />
         </Column>
       </form>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default NewProject;
