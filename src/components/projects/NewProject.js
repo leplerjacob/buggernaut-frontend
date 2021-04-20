@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getProjectsForPMAndUsers, createProjectWithTasks } from "../../actions/projects";
+import {
+  usersProjects,
+  createProjectWithTasks,
+} from "../../actions/projects";
 import InputTask from "../utilities/InputTask";
 import { StyleSheet, css } from "aphrodite";
 import { Row, Column } from "simple-flexbox";
@@ -34,14 +37,14 @@ const NewProject = () => {
   let users = useSelector((state) => state.projects.users);
 
   useEffect(() => {
-    dispatch(getProjectsForPMAndUsers(id));
+    dispatch(usersProjects());
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const {inputList, ...reqObj} = formState
-    reqObj.pm_id = id
-    dispatch(createProjectWithTasks(reqObj))
+    const { inputList, ...reqObj } = formState;
+    reqObj.pm_id = id;
+    dispatch(createProjectWithTasks(reqObj));
   };
 
   const handleChange = (e) => {
@@ -64,25 +67,28 @@ const NewProject = () => {
   const handleTaskChange = (e) => {
     const { name, value } = e.target;
     const index = e.target.parentElement.getAttribute("data-set");
-    let selectedValue = ""
-    if(e.target.selectedIndex){
-      const sIndex = e.target.selectedIndex
-      const node = e.target.childNodes[sIndex]
-      selectedValue = node.getAttribute('data-id')
+    let selectedValue = "";
+    if (e.target.selectedIndex) {
+      const sIndex = e.target.selectedIndex;
+      const node = e.target.childNodes[sIndex];
+      selectedValue = node.getAttribute("data-id");
     }
     setFormState((prevState) => {
       return {
         ...prevState,
         taskInputs: {
           ...prevState.taskInputs,
-          [index]: { ...prevState.taskInputs[index], [name]: selectedValue ? parseInt(selectedValue) : value },
+          [index]: {
+            ...prevState.taskInputs[index],
+            [name]: selectedValue ? parseInt(selectedValue) : value,
+          },
         },
       };
     });
   };
 
   const addTaskInput = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const index = formState.inputList.length + 1;
     setFormState((prevState) => ({
       ...prevState,
@@ -117,7 +123,7 @@ const NewProject = () => {
             Project Description
             <br />
             <textarea
-            className={css(styles.inputBox)}
+              className={css(styles.inputBox)}
               name="description"
               value={formState.description}
               onChange={handleChange}
@@ -160,10 +166,9 @@ const NewProject = () => {
           <label>Add task</label>
           <button onClick={addTaskInput}>Add Task</button>
           {formState.inputList.map((input, index) => input)}
-          <button
-            className={css(styles.submitBtn)}
-            onClick={handleSubmit}
-          >Submit</button>
+          <button className={css(styles.submitBtn)} onClick={handleSubmit}>
+            Submit
+          </button>
         </Column>
       </form>
     </div>

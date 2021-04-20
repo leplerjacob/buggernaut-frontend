@@ -22,9 +22,8 @@ export default (state = initialState, action) => {
         };
       }
     }
-    case "CHECK_LOGGED_IN":
-      {
-        const {logged_in, user } = action.check
+    case "CHECK_LOGGED_IN": {
+        let {logged_in, user} = action.check
         if (logged_in) {
           return {
             ...state,
@@ -35,21 +34,21 @@ export default (state = initialState, action) => {
         if (!logged_in) {
           return {
             ...state,
-            loggedInStatus: logged_in,
+            loggedInStatus: false,
             user: "",
           };
         }
       }
-      return;
     case "LOGOUT": {
-      const {logged_out} = action.user
-      if (logged_out){
+      const { logged_out } = action.user;
+      if (logged_out) {
         return {
           ...state,
           loggedInStatus: false,
-          user: ""
-        }}
+          user: "",
+        };
       }
+    }
     default:
       return state;
   }

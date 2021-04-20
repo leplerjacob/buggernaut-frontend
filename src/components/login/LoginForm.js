@@ -13,7 +13,6 @@ function LoginForm() {
     const dispatch = useDispatch()
 
     const handleLogin = (e) => {
-        console.log(username, password)
         e.preventDefault()
 
         dispatch(login(username, password))

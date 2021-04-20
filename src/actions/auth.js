@@ -6,6 +6,7 @@ export const checkIfLoggedIn = () => {
       withCredentials: true,
     });
     const data = await res.data;
+    
     dispatch({ type: "CHECK_LOGGED_IN", check: data });
   };
 };
