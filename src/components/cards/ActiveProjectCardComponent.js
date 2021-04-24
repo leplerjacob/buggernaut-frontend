@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 
 const ActiveProjectCardComponent = (props) => {
 
-  
+  const project = useSelector(state => state.tasks.project)
 
   return (
     <Column
@@ -62,15 +62,15 @@ const ActiveProjectCardComponent = (props) => {
         flexGrow={1}
         horizontal="space-between"
       >
-        <span className={css(styles.title)}>Project Title</span>
+        <span className={css(styles.title)}>{project.title}</span>
         <Column>
-          <span>Start Date</span>
-          <span>End Date</span>
-          <span>In Progress</span>
+          <span>{project.date_start}</span>
+          <span>{project.date_end}</span>
+          <span>{project.est_duration}</span>
         </Column>
       </Row>
       <Row>
-        <span>Project Description</span>
+        <span>{project.description}</span>
       </Row>
       <Row>
         <Column>

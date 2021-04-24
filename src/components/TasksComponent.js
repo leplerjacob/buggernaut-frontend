@@ -45,16 +45,17 @@ const styles = StyleSheet.create({
 });
 
 const TAGS = {
-  URGENT: { text: "URGENT", backgroundColor: "#FEC400", color: "#FFFFFF" },
-  NEW: { text: "NEW", backgroundColor: "#29CC97", color: "#FFFFFF" },
+  URGENT: { text: "IN PROGRESS", backgroundColor: "#FEC400", color: "#FFFFFF" },
+  NEW: { text: "COMPLETED", backgroundColor: "#29CC97", color: "#FFFFFF" },
   DEFAULT: { text: "DEFAULT", backgroundColor: "#F0F1F7", color: "#9FA2B4" },
 };
 
 class TasksComponent extends React.Component {
+
   state = {
     items: [
-      { title: "Finish ticket update", checked: false, tag: TAGS.URGENT },
-      { title: "Create new ticket example", checked: false, tag: TAGS.NEW },
+      { title: "Create validators for registration", checked: false, tag: TAGS.URGENT },
+      { title: "Implement association between User and Service", checked: false, tag: TAGS.NEW },
       { title: "Update ticket report", checked: true, tag: TAGS.DEFAULT },
     ],
   };

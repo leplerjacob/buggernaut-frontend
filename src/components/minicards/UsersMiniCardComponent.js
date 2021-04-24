@@ -11,10 +11,12 @@ const styles = StyleSheet.create({
   userDetails: {
     textAlign: "right",
   },
+  userCard: {
+    border: "1px solid #DFE0EB",
+  },
 });
 
 const UsersMiniCardComponent = (props) => {
-  
   let { id } = useSelector((state) => state.auth.user);
   let users = useSelector((state) => state.users.users);
   const dispatch = useDispatch();
@@ -25,7 +27,11 @@ const UsersMiniCardComponent = (props) => {
 
   const renderUserItem = (user) => {
     return (
-      <Row horizontal="space-around">
+      <Row
+        horizontal="space-around"
+        key={user.id}
+        className={css(styles.userCard)}
+      >
         <span className={css(styles.userName)}>
           {user.first_name} {user.last_name}
         </span>

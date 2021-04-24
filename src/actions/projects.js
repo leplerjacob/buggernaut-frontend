@@ -1,5 +1,14 @@
 import axios from "axios";
 
+export const getAllOpenProjectsTasksAndTickets = () => {
+  return async (dispatch) => {
+    const res = await axios.get('http://localhost:3000/open_projects_tasks_and_tickets', {withCredentials: true})
+
+    const data = await res.data;
+    dispatch({type: "GET_OPEN_PROJECTS_TASKS_AND_TICKETS", data: data})
+  }
+}
+
 export const usersProjects = () => {
   return async (dispatch) => {
     const res = await axios.get("http://localhost:3000/users_projects/", {

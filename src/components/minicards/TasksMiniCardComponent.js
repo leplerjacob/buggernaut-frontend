@@ -11,24 +11,25 @@ const styles = StyleSheet.create({
   taskDetails: {
     textAlign: "right",
   },
-  
+  taskCard: {
+    border: "1px solid #DFE0EB",
+  }
 });
 
 const TasksMiniCardComponent = (props) => {
-  let {id} = useSelector((state) => state.auth.user);
   let tasks = useSelector((state) => state.tasks.tasks);
   const dispatch = useDispatch();
 
   // NOTE: Will pass the user_id for request.
   useEffect(() => {
-    dispatch(getTasksForProject(id));
+    dispatch(getTasksForProject());
   }, []);
 
   const renderTaskItem = (task) => {
     return (
-      <Row horizontal="space-around" key={task.id}>
-        <span className={css(styles.taskTitle)}>{task.title}</span>
-        <span>{task.description}</span>
+      <Row horizontal="space-around" key={task.id} className={css(styles.taskCard)}>
+        <span className={css(styles.taskTitle)}>Title <br/>{task.title}</span>
+        <span>Description <br/>{task.description}</span>
         <span>{task.completed ? "completed" : "in progress"}</span>
         <span className={css(styles.taskDetails)}>More details</span>
       </Row>

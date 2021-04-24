@@ -166,6 +166,7 @@ const NewProject = () => {
           <label>Add task</label>
           <button onClick={addTaskInput}>Add Task</button>
           {formState.inputList.map((input, index) => input)}
+          <br/>
           <button className={css(styles.submitBtn)} onClick={handleSubmit}>
             Submit
           </button>

@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { string } from "prop-types";
 import { StyleSheet, css } from "aphrodite";
 import IconSearch from "../assets/icon-search";
@@ -60,6 +61,9 @@ const styles = StyleSheet.create({
 
 function HeaderComponent(props) {
   const { icon, title, ...otherProps } = props;
+
+  const user = useSelector((state) => state.auth.user);
+
   return (
     <Row
       className={css(styles.container)}
@@ -78,7 +82,7 @@ function HeaderComponent(props) {
         <div className={css(styles.separator)}></div>
         <Row vertical="center">
           <span className={css(styles.name, styles.cursorPointer)}>
-            John Doe
+            {user.first_name + " " + user.last_name}
           </span>
           <img
             src="https://avatars3.githubusercontent.com/u/21162888?s=460&v=4"
